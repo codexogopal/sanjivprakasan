@@ -10,6 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:sanjivprkashan/controller/ExamController.dart';
 import 'package:sanjivprkashan/model/forGetExam/GetSubjectWithQuestionsModel.dart';
 import 'package:sanjivprkashan/theme/mythemcolor.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../model/forGetExam/GetQuestionOptionsModel.dart';
 import '../../utils/styleUtil.dart';
@@ -1322,13 +1323,20 @@ class _ExamScreenState extends State<ExamScreen> {
     );
   }
 
+  // Widget htmlViewer1(String value){
+  //   return HtmlWidget(value,
+  //     textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+  //         fontWeight: FontWeight.normal,
+  //     ),
+  //   );
+  // }
+
+
+
   Widget htmlViewer(String value){
-    return HtmlWidget(value,
-      textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
-          fontWeight: FontWeight.normal,
-      ),
-    );
+    return HtmlWebViewScreen(htmlContent: value,);
   }
+
 
   void showLanguageBottomSheet() {
     showModalBottomSheet(
@@ -1420,4 +1428,49 @@ class _ExamScreenState extends State<ExamScreen> {
     });
   }
 
+}
+
+
+
+class HtmlWebViewScreen extends StatefulWidget {
+  final String htmlContent;
+
+  const HtmlWebViewScreen({Key? key, required this.htmlContent}) : super(key: key);
+
+  @override
+  State<HtmlWebViewScreen> createState() => _HtmlWebViewScreenState();
+}
+
+class _HtmlWebViewScreenState extends State<HtmlWebViewScreen> {
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.transparent)
+      ..loadHtmlString(
+        '''
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          </head>
+          <body>
+            ${widget.htmlContent}
+          </body>
+        </html>
+        ''',
+        baseUrl: 'https://studykee.com', // Helps load external images
+      );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("HTML WebView")),
+      body: WebViewWidget(controller: _controller),
+    );
+  }
 }
