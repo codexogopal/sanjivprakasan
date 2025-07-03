@@ -10,6 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:sanjivprkashan/controller/ExamController.dart';
 import 'package:sanjivprkashan/model/forGetExam/GetSubjectWithQuestionsModel.dart';
 import 'package:sanjivprkashan/theme/mythemcolor.dart';
+import 'package:sanjivprkashan/ui/web/HtmlViewer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../model/forGetExam/GetQuestionOptionsModel.dart';
@@ -1323,18 +1324,21 @@ class _ExamScreenState extends State<ExamScreen> {
     );
   }
 
-  // Widget htmlViewer1(String value){
-  //   return HtmlWidget(value,
-  //     textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
-  //         fontWeight: FontWeight.normal,
-  //     ),
-  //   );
-  // }
-
-
-
   Widget htmlViewer(String value){
-    return HtmlWebViewScreen(htmlContent: value,);
+    return HtmlWidget(value,
+      textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+          fontWeight: FontWeight.normal,
+      ),
+    );
+  }
+
+
+
+  Widget htmlViewer1(String value){
+    return HtmlViewer(
+      htmlContent: value,
+      height: 300,
+    );
   }
 
 
