@@ -819,7 +819,8 @@ class _ExamScreenState extends State<ExamScreen> {
                       showOptions,
                       (examCtrl.examLang.value == "2" ?
                       (question.value?.type != 1 ? (option.hindiQoText == "" ? option.qoText : option.hindiQoText) : option.qoOptions) :
-                      (question.value?.type != 1 ? option.qoText : option.qoOptions))
+                      (question.value?.type != 1 ? (option.qoText != "" ? option.qoText : option.hindiQoText) :
+                      option.qoOptions))
                           ??  ((question.value?.type != 1 ? option.qoText : option.qoOptions) ?? ""),
                       option.qoIsSelectedOrNot ?? 0
                   ),
@@ -859,7 +860,7 @@ class _ExamScreenState extends State<ExamScreen> {
                   _buildOptionForMatch(
                       showOptions,
                       (examCtrl.examLang.value == "2" ? (question.value?.type != 1 ? (option.hindiQoTextSec == "" ? option.qoTextSec : option.hindiQoTextSec) : option.qoOptionsSec)
-                          : (question.value?.type != 1 ? option.qoTextSec : option.qoOptionsSec))
+                          : (question.value?.type != 1 ? (option.qoTextSec != "" ? option.qoTextSec : option.hindiQoTextSec) : option.qoOptionsSec))
                           ??  ((question.value?.type != 1 ? option.qoTextSec : option.qoOptionsSec) ?? ""),
                       option.qoIsSelectedOrNot ?? 0, examCtrl.tQOptionData, "l1"
                   ),
@@ -891,7 +892,7 @@ class _ExamScreenState extends State<ExamScreen> {
                       showOptions, // Converts 0 to 'A', 1 to 'B', etc.
                       // (question.value?.type != 1 ? option.qoText : option.qoOptions) ?? 'No Option Text',
                       (examCtrl.examLang.value == "2" ? (question.value?.type != 1 ? (option.hindiQoText == "" ? option.qoText : option.hindiQoText) : option.qoOptions)
-                          : (question.value?.type != 1 ? option.qoText : option.qoOptions))
+                          : (question.value?.type != 1 ? (option.qoText != "" ? option.qoText : option.hindiQoText) : option.qoOptions))
                           ??  ((question.value?.type != 1 ? option.qoText : option.qoOptions) ?? ""),
                       option.qoIsSelectedOrNot ?? 0, examCtrl.tQOptionData, "l2", userAns: option.qoSelectedAns
                   ),
@@ -928,7 +929,10 @@ class _ExamScreenState extends State<ExamScreen> {
               ),
               SizedBox(height: 10),
               htmlViewer(
-                ((examCtrl.examLang.value == "2" && examCtrl.tQData.value?.questionHindi != "") ? examCtrl.tQData.value?.questionHindi : examCtrl.tQData.value?.questionEng) ??  (examCtrl.tQData.value?.questionEng ?? ""),
+                ((examCtrl.examLang.value == "2" && examCtrl.tQData.value?.questionHindi != "") ?
+                examCtrl.tQData.value?.questionHindi :
+                (examCtrl.tQData.value?.questionEng != "" ? examCtrl.tQData.value?.questionEng : examCtrl.tQData.value?.questionHindi))
+                    ??  (examCtrl.tQData.value?.questionEng ?? ""),
               ),
             ],
           ),
@@ -1219,7 +1223,8 @@ class _ExamScreenState extends State<ExamScreen> {
             SizedBox(height: 10),
             htmlViewer(
               ((examCtrl.examLang.value == "2" && examCtrl.tQData.value?.questionHindiSolution != "") ? examCtrl.tQData.value?.questionHindiSolution :
-              examCtrl.tQData.value?.questionEngSolution) ??  (examCtrl.tQData.value?.questionEngSolution ?? "No Solution available for this question!"),
+              examCtrl.tQData.value?.questionEngSolution != "" ?examCtrl.tQData.value?.questionEngSolution : examCtrl.tQData.value?.questionHindiSolution
+              ) ??  (examCtrl.tQData.value?.questionEngSolution ?? "No Solution available for this question!"),
             ),
           ],
         ),

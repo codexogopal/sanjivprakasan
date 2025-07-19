@@ -1,4 +1,4 @@
-package com.sanjivprkashan.sanjivprkashan
+package com.sanjivprkashan.io
 
 import io.flutter.embedding.android.FlutterActivity
 
